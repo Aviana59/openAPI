@@ -1,0 +1,172 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Toko Komputer",
+    "description": "REST API untuk mengelola data barang di toko komputer",
+    "version": "1.0"
+  }, 
+  "servers": [
+    {
+      "url": "http://localhost/api"
+    }
+  ],
+  "paths": {
+    "/barang": {
+      "get": {
+        "summary": "Mendapatkan daftar barang",
+        "description": "Mengambil daftar semua barang yang tersedia.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Barang"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Menambahkan barang baru",
+        "description": "Menambahkan barang baru ke dalam sistem.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarangInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status dari operasi penambahan barang."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/barang/{id}": {
+      "delete": {
+        "summary": "Menghapus barang berdasarkan ID",
+        "description": "Menghapus barang berdasarkan ID yang diberikan.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID dari barang yang akan dihapus."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "put": {
+        "summary": "Mengubah barang berdasarkan ID",
+        "description": "Mengubah barang berdasarkan ID yang diberikan.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID dari barang yang akan diubah."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarangInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status dari operasi perubahan barang."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Barang": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nama": {
+            "type": "string"
+          },
+          "harga": {
+            "type": "number"
+          },
+          "promo": {
+            "type": "string"
+          }
+        }
+      },
+      "BarangInput": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string"
+          },
+          "harga": {
+            "type": "number"
+          },
+          "promo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "nama",
+          "harga"
+        ]
+      }
+    }
+  }
+}
